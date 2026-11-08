@@ -44,24 +44,6 @@ The tests cover `vec3.js`, `mat4.js`, `node.js` and `curves.js`. Do not upload `
 | Part D | Export curve JSON | Download three Bézier segments in normalized painting coordinates. |
 | View | Reset | Restore camera/orbit, projection dropdown and camera sliders, objects and curve control points. |
 
-## Parts and mathematical conventions
-
-- **Part A:** Three instanced cubes use the Lab 3 camera uniform and storage-buffer node layout. `mat4.js` stores column-major matrices and uses column vectors. Both `T·R·S` and `S·R·T` are displayed for comparison.
-- **Part B:** Hierarchy `root → blue → {pink, greenGroup → green}`. The green group rotates. World matrices are computed with `SceneNode.updateWorld()`; children inherit their parent's transform. Debug axes are attached to the unscaled root for clear orientation.
-- **Part C:** `viewProjection()` composes `P · V`; `lookAt` follows the two-cross-products approach in the lecture, and projections use WebGPU depth `z ∈ [0,1]`. Orbiting follows Week 4 `w4lib.js`. The inspection camera draws the main camera's near/far frustum.
-- **Part D:** Three cubic Bézier segments with C¹ joints; `P1(next) = 2·P3(previous) − P2(previous)`. The actual rendering uses **the tested functions in `src/math/curves.js`**, including `cubicBezier`, `cubicBezierTangent`, `deCasteljau`, `c1NextControl` and `catmullRom`. The initial control points approximate the **upper melon rind** in the default painting; refine them visually using edit mode. Exported `kavunlu-curve.json` contains this **initial approximate trace**; re-export after edits to save the final trace.
-- **Part E:** The supplied statistics panel displays frame time, draw calls and submitted vertices. The renderer is the starter's WebGPU implementation.
-
-### JSON coordinates
-
-`kavunlu-curve.json` is included at the repository root. It is an initial approximate trace, not a claim of pixel-accurate tracing. The exported format is `{ "painting": "kavunlu", "kind": "bezier-c1", "segments": [...] }`; each segment has four `[u,v]` points, normalized to `[0,1]` relative to the painting, with `(0,0)` at the upper left. For your final hand-traced shape, adjust the handles and click **Export curve JSON**, then replace the included file with the download.
-
-## Lab/lecture provenance and AI disclosure
-
-The course starter provides `render/`, `ui/`, `geometry.js`, and the painting assets. The matrix multiplication pattern derives from Lab 2; 4×4 rotations, storage-buffer instancing and WGSL shader layout derive from Lab 3; camera orbit, view/projection and frustum visualization derive from Week 4 demos. Vector arithmetic derives from Week 1 linear algebra. Bézier/C¹/Catmull–Rom formulas correspond to Part D and the upcoming curves lecture. See in-code comments.
-
-**AI-assisted changes (document accurately in the report):** ChatGPT helped integrate Part D, debug WebGPU rendering, implement and reuse `vec3.js` / `curves.js`, correct camera reset and inspection input, add projection sliders, draft documentation and generate an initial approximate melon-rind control-point trace. The student must review, test in the browser, understand the math and disclose AI assistance according to the updated course rules. This README is not a substitute for the required report/appendix.
-
 ## Final submission checklist
 
 - [ ] Inspect the app in a WebGPU-enabled browser, including both projections and the inspection frustum.
